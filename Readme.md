@@ -1,7 +1,12 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Татьяна Сысуева](https://up.htmlacademy.ru/javascript/24/user/1578277).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хабиров](https://htmlacademy.ru/profile/alex_khab).
+
+---
+<a href="https://codeclimate.com/github/Tata-Sysueva/1578277-keksobooking-24"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
+
+[![check](https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions/workflows/check.yml/badge.svg)](https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions)
 
 ---
 
