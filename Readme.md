@@ -6,7 +6,7 @@
 ---
 <a href="https://codeclimate.com/github/Tata-Sysueva/1578277-keksobooking-24"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
 
-<a href="https://github.com/Tata-Sysueva/1578277-keksobooking-24"><img src="https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions/workflows/check.yml/badge.svg" /></a>
+[![check](https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions/workflows/check.yml/badge.svg)](https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions)
 
 ---
 
