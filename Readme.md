@@ -4,6 +4,11 @@
 * Наставник: [Алексей Хабиров](https://htmlacademy.ru/profile/alex_khab).
 
 ---
+<a href="https://codeclimate.com/github/Tata-Sysueva/1578277-keksobooking-24"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a>
+
+(https://github.com/Tata-Sysueva/1578277-keksobooking-24/actions/workflows/check.yml/badge.svg)
+
+---
 
 _Не удаляйте и не изменяйте самовольно файлы и папки:_
 _`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `package-lock.json`, `package.json`., `.github`_
