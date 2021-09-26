@@ -1,18 +1,21 @@
-function showRandomNumber (from, to) {
-  if ((from > 0 && to > 0) && to > from) {
-    const random = Math.round(Math.random() * (to - from + 1)) + from;
-    return random;
+const generateRandomNumber = (min, max) => Math.random() * (max - min + 1);
+
+const getInteger = (min, max) => {
+  if (min > max || min < 0) {
+    throw new Error('Неправильный диапазон!');
   }
-}
 
-showRandomNumber(1,100);
+  return Math.round(generateRandomNumber(min,max)) + min;
+};
 
-function showRandomNumberExp (from, to, exp) {
-  if ((from > 0 && to > 0) && to > from) {
-    const random = Math.random() * (to - from + 1) + from;
-    random.toFixed(exp);
-    return random;
+getInteger(1, 100);
+
+const getFloatingPointNumber = (min, max, exp) => {
+  if (min > max || min < 0) {
+    throw new Error('Неправильный диапазон!');
   }
-}
 
-showRandomNumberExp(1,100,3);
+  return +(generateRandomNumber(min,max)).toFixed(exp);
+};
+
+getFloatingPointNumber(1, 100, 3);
