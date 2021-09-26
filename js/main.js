@@ -5,7 +5,7 @@ const getInteger = (min, max) => {
     throw new Error('Неправильный диапазон!');
   }
 
-  return Math.round(generateRandomNumber(min,max)) + min;
+  return Math.floor(generateRandomNumber(min,max)) + min;
 };
 
 getInteger(1, 100);
@@ -15,7 +15,7 @@ const getFloatingPointNumber = (min, max, exp) => {
     throw new Error('Неправильный диапазон!');
   }
 
-  return +(generateRandomNumber(min,max)).toFixed(exp);
+  return Number((generateRandomNumber(min,max)).toFixed(exp));
 };
 
 getFloatingPointNumber(1, 100, 3);
