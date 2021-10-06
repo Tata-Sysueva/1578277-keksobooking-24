@@ -1,39 +1,5 @@
+/* eslint-disable id-length */
 /* eslint-disable no-unused-vars */
-
-//нахождение целого положительного числа
-
-const getInteger = (min, max) => {
-  if (min > max || min < 0) {
-    throw new Error('Неправильный диапазон!');
-  }
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-//нахождение положительного числа с плавоющей точкой
-
-const getFloatingPointNumber = (min, max, exp) => {
-  if (min > max || min < 0) {
-    throw new Error('Неправильный диапазон!');
-  }
-
-  return Number((Math.random() * (max - min) + min).toFixed(exp));
-};
-
-getFloatingPointNumber(1, 100, 3);
-
-// создаём объект author
-
-const padNum = (num) => num.toString().padStart(2,0);
-
-const getAvatar = (min, max) => `img/avatars/user${  padNum(getInteger(min, max))  }.` + 'png';
-
-const author = {
-  avatar: getAvatar(1, 10),
-};
-
-// создаём объект offer
-
 const TYPE = [
   'palace',
   'flat',
@@ -69,55 +35,75 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-// случайный элемент массива
+const OFFERS_AMOUNT = 10;
+
+let counter = 1;
+
+const getInteger = (min, max) => {
+  if (min > max || min < 0) {
+    throw new Error('Неправильный диапазон!');
+  }
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const getFloatingPointNumber = (min, max, exp) => {
+  if (min > max || min < 0) {
+    throw new Error('Неправильный диапазон!');
+  }
+
+  return Number((Math.random() * (max - min) + min).toFixed(exp));
+};
 
 const getRandomArrayElement = (elements) => elements[getInteger(0, elements.length - 1)];
 
-// массив случайной длины
+const createArr = (array) => {
+  const shuffle = () => {
+    let j, temp;
+    for (let i = array.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random()*(i + 1));
+      temp = array[j];
+      array[j] = array[i];
+      array[i] = temp;
+    }
 
-const createArr = ([...source], maxLength) => Array.from(
-  { length: Math.min(source.length, 1 + Math.random() * maxLength | 0) },
-  () => source.splice(Math.random() * source.length | 0, 1)[0],
-);
+    return array;
+  };
 
-//создаём объект offer
-
-const offer = {
-  title: 'Best offer!',
-  address: `${getFloatingPointNumber(35.65000, 35.70000, 5)  }, ${  getFloatingPointNumber(139.70000, 139.80000, 5)}`, // дописать координаты
-  price: getInteger(1, Number.MAX_SAFE_INTEGER),
-  type: getRandomArrayElement(TYPE),
-  rooms: getInteger(1, Number.MAX_SAFE_INTEGER),
-  guests: getInteger(1, Number.MAX_SAFE_INTEGER),
-  checkin: getRandomArrayElement(CHECKIN),
-  checkout: getRandomArrayElement(CHECKOUT),
-  features: createArr(FEATURES, FEATURES.length),
-  description: 'Лучший номер!',
-  photos: createArr(PHOTOS, PHOTOS.length),
+  return shuffle().slice(0, getInteger(0, array.length - 1));
 };
 
-// создаём объект location (почему линтер ругается, что у меня якобы уже создана переменная location)
+const createAd = () => {
+  const addLocationLat = getFloatingPointNumber(35.65000, 35.70000, 5);
+  const addLocationIng = getFloatingPointNumber(139.70000, 139.80000, 5);
 
-const location1 = {
-  lat: getFloatingPointNumber(35.65000, 35.70000, 5),
-  lng: getFloatingPointNumber(139.70000, 139.80000, 5),
+  const avatarImg = counter.toString().padStart(2,0);
+  counter++;
+
+  return {
+    author: {
+      avatar: `img/avatars/user${avatarImg}.png`,
+    },
+
+    offer: {
+      title: 'Best offer!',
+      address: `${addLocationLat}, ${addLocationIng}`,
+      price: getInteger(1, Number.MAX_SAFE_INTEGER),
+      type: getRandomArrayElement(TYPE),
+      rooms: getInteger(1, Number.MAX_SAFE_INTEGER),
+      guests: getInteger(1, Number.MAX_SAFE_INTEGER),
+      checkin: getRandomArrayElement(CHECKIN),
+      checkout: getRandomArrayElement(CHECKOUT),
+      features: createArr(FEATURES),
+      description: 'Лучший номер!',
+      photos: createArr(PHOTOS),
+    },
+
+    location: {
+      lat: addLocationLat,
+      lng: addLocationIng,
+    },
+  };
 };
 
-
-//создаём объявление
-
-const createAdd = () => ({
-  author,
-  offer,
-  location1,
-});
-
-createAdd();
-
-// создаём массив с объектами
-
-const COUNT_ELEMENTS_ADD = 10;
-
-const getAdds = Array.from({length: COUNT_ELEMENTS_ADD}, createAdd); // 10
-
-console.log(getAdds);
+const getAds = (adsCount) => Array.from({length: adsCount}, createAd);
