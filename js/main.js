@@ -37,8 +37,6 @@ const PHOTOS = [
 
 const OFFERS_AMOUNT = 10;
 
-let counter = 1;
-
 const getInteger = (min, max) => {
   if (min > max || min < 0) {
     throw new Error('Неправильный диапазон!');
@@ -57,28 +55,24 @@ const getFloatingPointNumber = (min, max, exp) => {
 
 const getRandomArrayElement = (elements) => elements[getInteger(0, elements.length - 1)];
 
-const createArr = (array) => {
-  const shuffle = () => {
-    let j, temp;
-    for (let i = array.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random()*(i + 1));
-      temp = array[j];
-      array[j] = array[i];
-      array[i] = temp;
-    }
+const shuffle = (array) => {
+  const copyArray = array.slice();
 
-    return array;
-  };
+  for (let i = copyArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copyArray[i], copyArray[j]] = [copyArray[j], copyArray[i]];
+  }
 
-  return shuffle().slice(0, getInteger(0, array.length - 1));
+  return array;
 };
 
-const createAd = () => {
+const createRandomArr = (array) => shuffle(array).slice(0, getInteger(0, array.length - 1));
+
+const createAd = (index) => {
   const addLocationLat = getFloatingPointNumber(35.65000, 35.70000, 5);
   const addLocationIng = getFloatingPointNumber(139.70000, 139.80000, 5);
 
-  const avatarImg = counter.toString().padStart(2,0);
-  counter++;
+  const avatarImg = index.toString().padStart(2,0);
 
   return {
     author: {
@@ -94,9 +88,9 @@ const createAd = () => {
       guests: getInteger(1, Number.MAX_SAFE_INTEGER),
       checkin: getRandomArrayElement(CHECKIN),
       checkout: getRandomArrayElement(CHECKOUT),
-      features: createArr(FEATURES),
+      features: createRandomArr(FEATURES),
       description: 'Лучший номер!',
-      photos: createArr(PHOTOS),
+      photos: createRandomArr(PHOTOS),
     },
 
     location: {
@@ -106,4 +100,6 @@ const createAd = () => {
   };
 };
 
-const getAds = (adsCount) => Array.from({length: adsCount}, createAd);
+const getAds = (adsCount) => Array.from({length: adsCount}, (item, index) => createAd(index + 1));
+
+console.log(getAds(OFFERS_AMOUNT));
