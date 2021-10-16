@@ -73,4 +73,4 @@ const getAds = (adsCount) => Array.from({length: adsCount}, (item, index) => cre
 
 getAds(OFFERS_AMOUNT);
 
-export {getAds, OFFERS_AMOUNT};
+export {getAds, OFFERS_AMOUNT, PHOTOS};
