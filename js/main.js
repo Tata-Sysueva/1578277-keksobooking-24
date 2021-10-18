@@ -1,6 +1,12 @@
 /* eslint-disable no-undef */
-import {getAds, OFFERS_AMOUNT} from './create-offers.js';
-import {renderCard, offer, author} from './card-popup.js';
+import {getAds} from './create-offers.js';
+import {renderCard} from './card-popup.js';
 
-getAds(OFFERS_AMOUNT);
-renderCard(offer, author);
+const map = document.querySelector('.map__canvas');
+
+const OFFERS_AMOUNT = 10;
+
+const data = getAds(OFFERS_AMOUNT);
+const card = renderCard(data[0]);
+
+map.appendChild(card);
