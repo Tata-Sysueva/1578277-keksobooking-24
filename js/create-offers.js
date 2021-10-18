@@ -1,4 +1,9 @@
-import {getInteger, getFloatingPointNumber, getRandomArrayElement, createRandomArr} from './util.js';
+import {
+  getInteger,
+  getFloatingPointNumber,
+  getRandomArrayElement,
+  createRandomArr
+} from './util.js';
 
 const TYPE = [
   'palace',
@@ -35,8 +40,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const OFFERS_AMOUNT = 10;
-
 const createAd = (index) => {
   const addLocationLat = getFloatingPointNumber(35.65000, 35.70000, 5);
   const addLocationIng = getFloatingPointNumber(139.70000, 139.80000, 5);
@@ -71,6 +74,4 @@ const createAd = (index) => {
 
 const getAds = (adsCount) => Array.from({length: adsCount}, (item, index) => createAd(index + 1));
 
-getAds(OFFERS_AMOUNT);
-
-export {getAds, OFFERS_AMOUNT};
+export {getAds};
