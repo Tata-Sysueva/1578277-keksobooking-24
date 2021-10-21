@@ -1,3 +1,4 @@
+
 const cardTemplate = document.querySelector('#card').content;
 const cardArticle = cardTemplate.querySelector('.popup');
 
@@ -10,36 +11,26 @@ const typesPlace = {
 };
 
 const fillFeat = (array, block) => {
-  for (let i = 0; i < array.length; i++) {
-    const newFeat = document.createElement('li');
-
-    newFeat.classList.add('popup__feature');
-    newFeat.classList.add(`popup__feature--${array[i]}`);
-    block.append(newFeat);
-  }
+  array.forEach((element) => {
+    const newFeat = `<li class="popup__feature popup__feature--${element}"></li>`;
+    block.insertAdjacentHTML('beforeend', newFeat);
+  });
 };
 
 const fillPhotos = (photos, photo, block) => {
-  for (let i = 0; i < photos.length; i++) {
+  photos.forEach((element) => {
     const photoNew = photo.cloneNode(true);
-
-    photoNew.src = photos[i];
-    block.append(photoNew);
-  }
+    photoNew.src = element;
+    block.appendChild(photoNew);
+  });
 };
 
-const checkContentText = (arrTextField) => {
-  for (let i = 0; i < arrTextField.length; i++) {
-    if (arrTextField[i].textContent === '') {
-      arrTextField[i].remove();
+const checkContent = (arrField) => {
+  arrField.forEach((element) => {
+    if (element.textContent === '' || arrField.length < 0) {
+      element.remove();
     }
-  }
-};
-
-const checkContentArr = (arrTextField) => {
-  if (arrTextField.length < 0) {
-    throw new Error('Пустое поле!');
-  }
+  });
 };
 
 const renderCard = ({ offer, author }) => {
@@ -57,7 +48,7 @@ const renderCard = ({ offer, author }) => {
     photos,
   } = offer;
 
-  const {avatar} = author;
+  const { avatar } = author;
 
 
   const cloneCard = cardArticle.cloneNode(true);
@@ -69,13 +60,10 @@ const renderCard = ({ offer, author }) => {
   const addressCard = cloneCard.querySelector('.popup__text--address');
   const descriptionCard = cloneCard.querySelector('.popup__description');
 
-  const textField = [
+  const fields = [
     titleCard,
     addressCard,
     descriptionCard,
-  ];
-
-  const arrField = [
     price,
     type,
     rooms,
@@ -94,19 +82,20 @@ const renderCard = ({ offer, author }) => {
   addressCard.textContent = address;
   descriptionCard.textContent = description;
 
-  checkContentText(textField);
-  checkContentArr(arrField);
-
-  featsList.innerHTML = '';
+  checkContent(fields);
 
   if (features.length > 0) {
+    featsList.innerHTML = '';
     fillFeat(features, featsList);
+  } else {
+    featsList.remove();
   }
 
-  photoContainer.innerHTML = '';
-
   if (photos.length > 0) {
+    photoContainer.innerHTML = '';
     fillPhotos(photos, photo, photoContainer);
+  } else {
+    photoContainer.remove();
   }
 
   return cloneCard;
