@@ -7,8 +7,6 @@ const offerPrice = document.querySelector('#price');
 const offerRooms = document.querySelector('#room_number');
 const offerGuests = document.querySelector('#capacity');
 
-console.log(offerGuests);
-console.log(offerRooms);
 const typePlace = {
   bungalow: 0,
   flat: 1000,
@@ -42,7 +40,7 @@ const onTitleInput = () => {
 };
 
 const syncPrice = () => {
-  const place = offerType.value; //house // palace
+  const place = offerType.value;
   offerPrice.min = typePlace[place];
   offerPrice.placeholder = typePlace[place];
 };
@@ -53,10 +51,20 @@ const onPriceChange = () => {
 };
 
 const onCheckRooms = () => {
- // const rooms = offerRooms.value;
-  //const guests = offerGuests.value;
- console.log('тык');
+  const rooms = Number(offerRooms.value);
+  const guests = Number(offerGuests.value);
 
+  if (rooms < guests) {
+    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+  } else if (rooms === 100 && guests !== 0) {
+    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+  } else if (guests === 0 && rooms !== 100) {
+    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+  } else {
+    offerGuests.setCustomValidity('');
+  }
+
+  offerGuests.reportValidity();
 };
 
 const onPriceInvalid = () => {
