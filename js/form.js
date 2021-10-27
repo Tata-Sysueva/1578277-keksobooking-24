@@ -6,6 +6,8 @@ const offerType = document.querySelector('#type');
 const offerPrice = document.querySelector('#price');
 const offerRooms = document.querySelector('#room_number');
 const offerGuests = document.querySelector('#capacity');
+const offerTimeIn = document.querySelector('#timein');
+const offerTimeOut = document.querySelector('#timeout');
 
 const typePlace = {
   bungalow: 0,
@@ -81,6 +83,14 @@ const onPriceInput = () => {
   offerPrice.setCustomValidity(' ');
 };
 
+const onTimeChangeIn = () => {
+  offerTimeOut.value = offerTimeIn.value;
+};
+
+const onTimeChangeOut = () => {
+  offerTimeIn.value = offerTimeOut.value;
+};
+
 const setFormListeners = () => {
   syncPrice();
   offerTitle.addEventListener('invalid', onTitleInvalid);
@@ -91,6 +101,8 @@ const setFormListeners = () => {
   offerPrice.addEventListener('input', onPriceInput);
   offerRooms.addEventListener('change', onCheckRooms);
   offerGuests.addEventListener('change', onCheckRooms);
+  offerTimeIn.addEventListener('change', onTimeChangeIn);
+  offerTimeOut.addEventListener('change', onTimeChangeOut);
 };
 
 export {setFormListeners};
