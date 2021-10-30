@@ -83,12 +83,9 @@ const onPriceInput = () => {
   offerPrice.setCustomValidity(' ');
 };
 
-const onTimeChangeIn = () => {
+const onTimeChange = (evt) => {
+  offerTimeIn.value = evt.target.value;
   offerTimeOut.value = offerTimeIn.value;
-};
-
-const onTimeChangeOut = () => {
-  offerTimeIn.value = offerTimeOut.value;
 };
 
 const setFormListeners = () => {
@@ -101,8 +98,8 @@ const setFormListeners = () => {
   offerPrice.addEventListener('input', onPriceInput);
   offerRooms.addEventListener('change', onCheckRooms);
   offerGuests.addEventListener('change', onCheckRooms);
-  offerTimeIn.addEventListener('change', onTimeChangeIn);
-  offerTimeOut.addEventListener('change', onTimeChangeOut);
+  offerTimeIn.addEventListener('change', onTimeChange);
+  offerTimeOut.addEventListener('change', onTimeChange);
 };
 
 export {setFormListeners};
