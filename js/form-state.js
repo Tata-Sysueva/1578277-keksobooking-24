@@ -1,3 +1,5 @@
+import {mapLoad} from './map.js';
+
 const adForm = document.querySelector('.ad-form');
 const adFormElements = adForm.querySelectorAll('fieldset');
 const mapFilter = document.querySelector('.map__filters');
@@ -23,4 +25,12 @@ const turnOn = () => {
   toggleElements(filterFormElements, false);
 };
 
-export {turnOff, turnOn};
+const toggleStateForms = () => {
+  if (!mapLoad) {
+    turnOff();
+  } else {
+    turnOn();
+  }
+};
+
+export {toggleStateForms};
