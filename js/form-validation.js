@@ -102,4 +102,4 @@ const setFormListeners = () => {
   offerTimeOut.addEventListener('change', onTimeChange);
 };
 
-export {setFormListeners};
+export { setFormListeners };

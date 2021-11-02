@@ -1,5 +1,3 @@
-import {mapLoad} from './map.js';
-
 const adForm = document.querySelector('.ad-form');
 const adFormElements = adForm.querySelectorAll('fieldset');
 const mapFilter = document.querySelector('.map__filters');
@@ -11,26 +9,18 @@ const toggleElements = (elements, state) => {
   });
 };
 
-const turnOff = () => {
+const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
   mapFilter.classList.add('map__filters--disabled');
   toggleElements(adFormElements, true);
   toggleElements(filterFormElements, true);
 };
 
-const turnOn = () => {
+const activatePage = () => {
   adForm.classList.remove('ad-form--disabled');
   mapFilter.classList.remove('map__filters--disabled');
   toggleElements(adFormElements, false);
   toggleElements(filterFormElements, false);
 };
 
-const toggleStateForms = () => {
-  if (!mapLoad) {
-    turnOff();
-  } else {
-    turnOn();
-  }
-};
-
-export {toggleStateForms};
+export { deactivatePage, activatePage };

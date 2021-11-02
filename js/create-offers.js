@@ -74,4 +74,4 @@ const createAd = (index) => {
 
 const getAds = (adsCount) => Array.from({length: adsCount}, (item, index) => createAd(index + 1));
 
-export {getAds};
+export { getAds };

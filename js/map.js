@@ -1,41 +1,53 @@
-/* eslint-disable no-shadow */
-import {renderCard} from './card-popup.js';
-import {getAds} from './create-offers.js';
+import { renderCard } from './card-popup.js';
+import { getAds } from './create-offers.js';
+import { activatePage } from './form-state.js';
 
 const inputAddress = document.querySelector('#address');
+
+const START_LAT = 35.6898;
+const START_LNG = 139.798;
+
+const MAIN_MARKER_LAT = 35.6895;
+const MAIN_MARKER_LNG = 139.692;
+
 const OFFERS_AMOUNT = 10;
-
-const map = L.map('map-canvas');
-
-let mapLoad = false;
-
-map.on('load', () => {
-  mapLoad = true;
-});
-
-map.setView({
-  lat: 35.6898,
-  lng: 139.798,
-}, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const FLOAT_POINT = 5;
 
 const offersPoints = getAds(OFFERS_AMOUNT);
 
-offersPoints.forEach((cardPopup) => {
+const map = L.map('map-canvas');
+const layer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const copyright = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-  const { lat, lng } = cardPopup.location;
+const mainPinUrl = '/img/main-pin.svg';
+const mainPinSize = [52, 52];
+const mainPinAnchor = [26, 52];
 
-  const icon = L.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-  });
+const pinUrl = '/img/pin.svg';
+const pinSize = [40, 40];
+const pinAnchor = [20, 40];
+
+const mainPinIcon = L.icon({
+  iconUrl: mainPinUrl,
+  iconSize: mainPinSize,
+  iconAnchor: mainPinAnchor,
+});
+
+const icon = L.icon({
+  iconUrl: pinUrl,
+  iconSize: pinSize,
+  iconAnchor: pinAnchor,
+});
+
+L.tileLayer(
+  layer,
+  {
+    attribution: copyright,
+  },
+).addTo(map);
+
+const renderMarkers = (points) => points.forEach((point) => {
+  const { lat, lng } = point.location;
 
   const marker = L.marker(
     {
@@ -47,33 +59,50 @@ offersPoints.forEach((cardPopup) => {
     },
   );
 
-  marker
-    .addTo(map)
-    .bindPopup(renderCard(cardPopup));
+  marker.bindPopup(renderCard(point));
+
+  const markerOffers = L.layerGroup([marker]);
+
+  markerOffers.addTo(map);
 });
 
-const mainPinIcon = L.icon({
-  iconUrl: '/img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [25.5, 25.5],
-});
+inputAddress.value = `${MAIN_MARKER_LAT}, ${MAIN_MARKER_LNG}`
 
-const marker = L.marker(
-  {
-    lat: 35.6895,
-    lng: 139.692,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
+const createMainMarker = () => (
+  L.marker(
+    {
+      lat: MAIN_MARKER_LAT,
+      lng: MAIN_MARKER_LNG,
+    },
+    {
+      draggable: true,
+      icon: mainPinIcon,
+    },
+  )
 );
 
-marker.addTo(map);
+const onActivePage = () => {
+  activatePage();
+};
 
-marker.on('moveend', (evt) => {
-  const point = evt.target.getLatLng();
-  inputAddress.value = `${Number(point.lat.toFixed(5))} ${Number(point.lng.toFixed(5))}`;
-});
+const initMap = () => {
+  map.setView({
+    lat: START_LAT,
+    lng: START_LNG,
+  }, 10);
 
-export{mapLoad};
+  map.on('load', onActivePage());
+
+  const mainMarker = createMainMarker();
+
+  mainMarker.addTo(map);
+
+  mainMarker.on('move', (evt) => {
+    const { lat, lng } = evt.target.getLatLng();
+    inputAddress.value = `${Number(lat.toFixed(FLOAT_POINT))}, ${Number(lng.toFixed(FLOAT_POINT))}`;
+  });
+
+  renderMarkers(offersPoints);
+};
+
+export { initMap };

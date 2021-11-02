@@ -1,6 +1,7 @@
-import {setFormListeners} from './form-validation.js';
-import {toggleStateForms} from './form-state.js';
-import './map.js';
+import { setFormListeners } from './form-validation.js';
+import { deactivatePage } from './form-state.js';
+import { initMap } from './map.js';
 
 setFormListeners();
-toggleStateForms();
+deactivatePage();
+initMap();

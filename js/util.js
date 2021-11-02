@@ -29,4 +29,4 @@ const shuffle = (array) => {
 
 const createRandomArr = (array) => shuffle(array).slice(0, getInteger(0, array.length - 1));
 
-export {getInteger, getFloatingPointNumber, getRandomArrayElement, createRandomArr};
+export { getInteger, getFloatingPointNumber, getRandomArrayElement, createRandomArr };
