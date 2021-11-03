@@ -101,4 +101,4 @@ const renderCard = ({ offer, author }) => {
   return cloneCard;
 };
 
-export {renderCard};
+export { renderCard };
