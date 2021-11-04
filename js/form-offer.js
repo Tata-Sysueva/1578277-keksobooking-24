@@ -1,3 +1,6 @@
+import {showAlert} from './util.js';
+import {sendData} from './api.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -8,6 +11,8 @@ const offerRooms = document.querySelector('#room_number');
 const offerGuests = document.querySelector('#capacity');
 const offerTimeIn = document.querySelector('#timein');
 const offerTimeOut = document.querySelector('#timeout');
+const offerForm = document.querySelector('.ad-form');
+const offerReset = document.querySelector('.ad-form__reset');
 
 const typePlace = {
   bungalow: 0,
@@ -80,12 +85,16 @@ const onPriceInvalid = () => {
 };
 
 const onPriceInput = () => {
-  offerPrice.setCustomValidity(' ');
+  offerPrice.setCustomValidity('');
 };
 
 const onTimeChange = (evt) => {
   offerTimeIn.value = evt.target.value;
   offerTimeOut.value = offerTimeIn.value;
+};
+
+const formReset = () => {
+  offerForm.reset();
 };
 
 const setFormListeners = () => {
@@ -100,6 +109,16 @@ const setFormListeners = () => {
   offerGuests.addEventListener('change', onCheckRooms);
   offerTimeIn.addEventListener('change', onTimeChange);
   offerTimeOut.addEventListener('change', onTimeChange);
+
+  offerForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target);
+
+    sendData(formReset, showAlert, formData);
+  });
+
+  offerReset.addEventListener('click', formReset);
 };
 
 export { setFormListeners };

@@ -84,14 +84,14 @@ const renderCard = ({ offer, author }) => {
 
   checkContent(fields);
 
-  if (features.length > 0) {
+  if (offer.hasOwnProperty(features)) {
     featsList.innerHTML = '';
     fillFeat(features, featsList);
   } else {
     featsList.remove();
   }
 
-  if (photos.length > 0) {
+  if (offer.hasOwnProperty(photos)) {
     photoContainer.innerHTML = '';
     fillPhotos(photos, photo, photoContainer);
   } else {

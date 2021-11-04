@@ -1,5 +1,4 @@
 import { renderCard } from './card-popup.js';
-import { getAds } from './create-offers.js';
 import { activatePage } from './form-state.js';
 
 const inputAddress = document.querySelector('#address');
@@ -9,11 +8,7 @@ const START_LNG = 139.798;
 
 const MAIN_MARKER_LAT = 35.6895;
 const MAIN_MARKER_LNG = 139.692;
-
-const OFFERS_AMOUNT = 10;
 const FLOAT_POINT = 5;
-
-const offersPoints = getAds(OFFERS_AMOUNT);
 
 const map = L.map('map-canvas');
 const layer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -46,25 +41,27 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const renderMarkers = (points) => points.forEach((point) => {
-  const { lat, lng } = point.location;
+const renderMarkers = (dataArrPoint) => {
+  dataArrPoint.forEach((data) => {
+    const { lat, lng } = data.location;
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
 
-  marker.bindPopup(renderCard(point));
+    marker.bindPopup(renderCard(data));
 
-  const markerOffers = L.layerGroup([marker]);
+    const markerOffers = L.layerGroup([marker]);
 
-  markerOffers.addTo(map);
-});
+    markerOffers.addTo(map);
+  });
+};
 
 inputAddress.value = `${MAIN_MARKER_LAT}, ${MAIN_MARKER_LNG}`
 
@@ -89,7 +86,7 @@ const initMap = () => {
   map.setView({
     lat: START_LAT,
     lng: START_LNG,
-  }, 10);
+  }, 12);
 
   map.on('load', onActivePage());
 
@@ -101,8 +98,6 @@ const initMap = () => {
     const { lat, lng } = evt.target.getLatLng();
     inputAddress.value = `${Number(lat.toFixed(FLOAT_POINT))}, ${Number(lng.toFixed(FLOAT_POINT))}`;
   });
-
-  renderMarkers(offersPoints);
 };
 
-export { initMap };
+export { initMap, renderMarkers };
