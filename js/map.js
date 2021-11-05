@@ -1,14 +1,16 @@
 import { renderCard } from './card-popup.js';
 import { activatePage } from './form-state.js';
+import { getData } from './api.js';
+import { showAlert } from './popup.js';
 
 const inputAddress = document.querySelector('#address');
 
-const START_LAT = 35.6898;
-const START_LNG = 139.798;
+const LAT = 35.6898;
+const LNG = 139.798;
 
-const MAIN_MARKER_LAT = 35.6895;
-const MAIN_MARKER_LNG = 139.692;
 const FLOAT_POINT = 5;
+const OFFER_COUNT = 10;
+const ZOOM = 12;
 
 const map = L.map('map-canvas');
 const layer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -63,13 +65,13 @@ const renderMarkers = (dataArrPoint) => {
   });
 };
 
-inputAddress.value = `${MAIN_MARKER_LAT}, ${MAIN_MARKER_LNG}`
+inputAddress.value = `${LAT}, ${LNG}`;
 
 const createMainMarker = () => (
   L.marker(
     {
-      lat: MAIN_MARKER_LAT,
-      lng: MAIN_MARKER_LNG,
+      lat: LAT,
+      lng: LNG,
     },
     {
       draggable: true,
@@ -78,17 +80,20 @@ const createMainMarker = () => (
   )
 );
 
-const onActivePage = () => {
-  activatePage();
+const onDataLoad = (data) => {
+  renderMarkers(data.slice(0, OFFER_COUNT));
 };
+
+map.on('load', () => {
+  activatePage();
+  getData(onDataLoad, showAlert);
+});
 
 const initMap = () => {
   map.setView({
-    lat: START_LAT,
-    lng: START_LNG,
-  }, 12);
-
-  map.on('load', onActivePage());
+    lat: LAT,
+    lng: LNG,
+  }, ZOOM);
 
   const mainMarker = createMainMarker();
 
@@ -100,4 +105,4 @@ const initMap = () => {
   });
 };
 
-export { initMap, renderMarkers };
+export { initMap };

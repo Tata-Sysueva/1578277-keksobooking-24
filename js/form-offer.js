@@ -1,5 +1,5 @@
-import {showAlert} from './util.js';
-import {sendData} from './api.js';
+import { getPopupSuccess, getPopupError } from './popup.js';
+import { sendData } from './api.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -93,8 +93,22 @@ const onTimeChange = (evt) => {
   offerTimeOut.value = offerTimeIn.value;
 };
 
-const formReset = () => {
+const onFormReset = (evt) => {
+  evt.preventDefault();
   offerForm.reset();
+};
+
+const sendDataSuccess = () => {
+  getPopupSuccess();
+  offerForm.reset();
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  sendData(sendDataSuccess, getPopupError, formData);
 };
 
 const setFormListeners = () => {
@@ -109,16 +123,8 @@ const setFormListeners = () => {
   offerGuests.addEventListener('change', onCheckRooms);
   offerTimeIn.addEventListener('change', onTimeChange);
   offerTimeOut.addEventListener('change', onTimeChange);
-
-  offerForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const formData = new FormData(evt.target);
-
-    sendData(formReset, showAlert, formData);
-  });
-
-  offerReset.addEventListener('click', formReset);
+  offerForm.addEventListener('submit', onFormSubmit);
+  offerReset.addEventListener('click', onFormReset);
 };
 
 export { setFormListeners };

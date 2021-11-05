@@ -1,23 +1,30 @@
-const getData = (onSuccess, onError) => () => {
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+const API_URL = 'https://24.javascript.pages.academy/keksobooking';
+
+const errorMesseges = {
+  failedGetData: 'Упс! Что-то пошло не так',
+  failedFormSubmit: 'Не удалось отправить форму. Попробуйте ещё раз',
+};
+
+const getData = (onSuccess, onFail) => {
+  fetch(`${API_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response.json();
       }
 
-      onError('Упс! Что-то пошло не так');
+      onFail(errorMesseges.failedGetData);
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch (() => {
-      onError('Упс! Что-то пошло не так');
+      onFail(errorMesseges.failedGetData);
     });
 };
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://24.javascript.pages.academy/keksobooking',
+    API_URL,
     {
       method: 'POST',
       body,
@@ -26,12 +33,13 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
+        console.log('cool');
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail(errorMesseges.failedFormSubmit);
       }
     })
     .catch (() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail(errorMesseges.failedFormSubmit);
     });
 };
 
