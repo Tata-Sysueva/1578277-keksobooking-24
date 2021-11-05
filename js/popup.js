@@ -5,7 +5,6 @@ const successMessageTemplate = document.querySelector('#success').content;
 const successMessage = successMessageTemplate.querySelector('.success');
 const errorMessageTemplate = document.querySelector('#error').content;
 const errorMessage = errorMessageTemplate.querySelector('.error');
-const buttonErrorClose =  document.querySelector('.error__button')
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -30,43 +29,31 @@ const showAlert = (message) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getPopupSuccess = () => {
-  const cloneMessage = successMessage.cloneNode(true);
+const renderPopup = (template) => {
+  const cloneMessage = template.cloneNode(true);
   body.appendChild(cloneMessage);
 
   const closePopup = () => {
     cloneMessage.remove();
+    document.removeEventListener('keydown', onPopupEscKeydown);
   };
 
-  const onPopupEscKeydown = (evt) => {
+  function onPopupEscKeydown(evt) {
     if (isEscapeKey(evt)) {
-      evt.preventDefault();
       closePopup();
     }
-  };
+  }
 
   document.addEventListener('keydown', onPopupEscKeydown);
-  document.addEventListener('click', closePopup);
+  cloneMessage.addEventListener('click', closePopup);
 };
 
-const getPopupError = () => {
-  const cloneMessage = errorMessage.cloneNode(true);
-  body.appendChild(cloneMessage);
-
-  const closePopup = () => {
-    cloneMessage.remove();
-  };
-
-  const onPopupEscKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closePopup();
-    }
-  };
-
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.addEventListener('click', closePopup);
-  buttonErrorClose.addEventListener('click', closePopup);
+const renderPopupSuccess = () => {
+  renderPopup(successMessage);
 };
 
-export { showAlert, getPopupSuccess, getPopupError };
+const renderPopupError = () => {
+  renderPopup(errorMessage);
+};
+
+export { showAlert, renderPopupSuccess, renderPopupError };

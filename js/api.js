@@ -33,7 +33,6 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-        console.log('cool');
       } else {
         onFail(errorMesseges.failedFormSubmit);
       }

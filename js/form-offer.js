@@ -1,4 +1,4 @@
-import { getPopupSuccess, getPopupError } from './popup.js';
+import { renderPopupSuccess, renderPopupError } from './popup.js';
 import { sendData } from './api.js';
 
 const MIN_TITLE_LENGTH = 30;
@@ -99,7 +99,7 @@ const onFormReset = (evt) => {
 };
 
 const sendDataSuccess = () => {
-  getPopupSuccess();
+  renderPopupSuccess();
   offerForm.reset();
 };
 
@@ -108,7 +108,7 @@ const onFormSubmit = (evt) => {
 
   const formData = new FormData(evt.target);
 
-  sendData(sendDataSuccess, getPopupError, formData);
+  sendData(sendDataSuccess, renderPopupError, formData);
 };
 
 const setFormListeners = () => {
