@@ -1,3 +1,6 @@
+import { renderPopupSuccess, renderPopupError } from './popup.js';
+import { sendData } from './api.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -8,6 +11,8 @@ const offerRooms = document.querySelector('#room_number');
 const offerGuests = document.querySelector('#capacity');
 const offerTimeIn = document.querySelector('#timein');
 const offerTimeOut = document.querySelector('#timeout');
+const offerForm = document.querySelector('.ad-form');
+const offerReset = document.querySelector('.ad-form__reset');
 
 const typePlace = {
   bungalow: 0,
@@ -80,12 +85,30 @@ const onPriceInvalid = () => {
 };
 
 const onPriceInput = () => {
-  offerPrice.setCustomValidity(' ');
+  offerPrice.setCustomValidity('');
 };
 
 const onTimeChange = (evt) => {
   offerTimeIn.value = evt.target.value;
   offerTimeOut.value = offerTimeIn.value;
+};
+
+const onFormReset = (evt) => {
+  evt.preventDefault();
+  offerForm.reset();
+};
+
+const sendDataSuccess = () => {
+  renderPopupSuccess();
+  offerForm.reset();
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  sendData(sendDataSuccess, renderPopupError, formData);
 };
 
 const setFormListeners = () => {
@@ -100,6 +123,8 @@ const setFormListeners = () => {
   offerGuests.addEventListener('change', onCheckRooms);
   offerTimeIn.addEventListener('change', onTimeChange);
   offerTimeOut.addEventListener('change', onTimeChange);
+  offerForm.addEventListener('submit', onFormSubmit);
+  offerReset.addEventListener('click', onFormReset);
 };
 
 export { setFormListeners };

@@ -1,4 +1,3 @@
-
 const cardTemplate = document.querySelector('#card').content;
 const cardArticle = cardTemplate.querySelector('.popup');
 
@@ -84,14 +83,14 @@ const renderCard = ({ offer, author }) => {
 
   checkContent(fields);
 
-  if (features.length > 0) {
+  if (offer.features && features.length > 0) {
     featsList.innerHTML = '';
     fillFeat(features, featsList);
   } else {
     featsList.remove();
   }
 
-  if (photos.length > 0) {
+  if (offer.photos && photos.length > 0) {
     photoContainer.innerHTML = '';
     fillPhotos(photos, photo, photoContainer);
   } else {

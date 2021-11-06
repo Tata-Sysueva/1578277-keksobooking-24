@@ -1,4 +1,4 @@
-import { setFormListeners } from './form-validation.js';
+import { setFormListeners } from './form-offer.js';
 import { deactivatePage } from './form-state.js';
 import { initMap } from './map.js';
 
