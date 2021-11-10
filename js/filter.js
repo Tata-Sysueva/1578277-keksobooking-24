@@ -1,11 +1,11 @@
 import { clearMarkers, renderMarkers } from './map.js';
+import { debounce } from './util.js';
 
 const formFilter = document.querySelector('.map__filters');
 const formFilterType = formFilter.querySelector('#housing-type');
 const formFilterPrice = formFilter.querySelector('#housing-price');
 const formFilterRooms = formFilter.querySelector('#housing-rooms');
 const formFilterGuests = formFilter.querySelector('#housing-guests');
-const formFilterFeatures = formFilter.querySelectorAll('.map__checkbox');
 
 const OFFER_COUNT = 10;
 const OFFER_DEFAULT = 'any';
@@ -18,12 +18,7 @@ const OfferPrice = {
   max: 50000,
 };
 
-const isTypeRight = ({ offer }) => {
-  const type = offer.type;
-  if (type === formFilterType.value || formFilterType.value === OFFER_DEFAULT) {
-    return true;
-  }
-};
+const isTypeRight = ({ offer }) => offer.type === formFilterType.value || formFilterType.value === OFFER_DEFAULT;
 
 const isPriceRight = ({ offer }) => {
   const price = offer.price;
@@ -54,27 +49,17 @@ const isGuestsRight = ({ offer }) => {
   }
 };
 
-const checkedFeatArr = [];
-
-const featuresArr = Array.from(formFilterFeatures);
-
-featuresArr.map((element) => {
-  if (element.checked) {
-    checkedFeatArr.push(element);
-  }
-});
-
 const isFeaturesRight = ({ offer }) => {
   const features = offer.features;
+  const checkedFeatures = Array.from(formFilter.querySelectorAll('.map__checkbox:checked'));
+
   if (features && features.length > 0) {
-    if (checkedFeatArr.every((feat) => features.includes(feat))) {
-      console.log('true');
+    if (checkedFeatures.every((feature) => features.includes(feature.value))) {
       return true;
     }
-  } else {
-    console.log('false');
-    return false;
   }
+
+  return false;
 };
 
 const isOfferRight = (data) => {
@@ -83,15 +68,7 @@ const isOfferRight = (data) => {
   }
 };
 
-const filterOffers = (data) => {
-  const filterData =
-         data
-           .slice()
-           .filter(isOfferRight)
-           .slice(0, OFFER_COUNT);
-
-  return filterData;
-};
+const filterOffers = (data) => data.filter(isOfferRight).slice(0, OFFER_COUNT);
 
 const onFilterMapChange = (data) => {
   filterOffers(data);
@@ -100,10 +77,9 @@ const onFilterMapChange = (data) => {
 };
 
 const getFilterOffers = (dataOffers) => {
-  formFilter.addEventListener('change', () => {
+  formFilter.addEventListener('change', debounce(() => {
     onFilterMapChange(dataOffers);
-  },
-  );
+  }));
 };
 
 export { getFilterOffers };
