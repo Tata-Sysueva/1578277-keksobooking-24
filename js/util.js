@@ -1,3 +1,5 @@
+const DEFOULT_VALUE = 500;
+
 const getInteger = (min, max) => {
   if (min > max || min < 0) {
     throw new Error('Неправильный диапазон!');
@@ -29,4 +31,19 @@ const shuffle = (array) => {
 
 const createRandomArr = (array) => shuffle(array).slice(0, getInteger(0, array.length - 1));
 
-export { getInteger, getFloatingPointNumber, getRandomArrayElement, createRandomArr };
+const debounce = (callback, timeoutDelay = DEFOULT_VALUE) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {
+  getInteger,
+  getFloatingPointNumber,
+  getRandomArrayElement,
+  createRandomArr,
+  debounce
+};

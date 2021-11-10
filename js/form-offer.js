@@ -57,7 +57,7 @@ const onPriceChange = () => {
   syncPrice();
 };
 
-const onCheckRooms = () => {
+const onRoomsChange = () => {
   const rooms = Number(offerRooms.value);
   const guests = Number(offerGuests.value);
 
@@ -108,7 +108,14 @@ const onFormSubmit = (evt) => {
 
   const formData = new FormData(evt.target);
 
-  sendData(sendDataSuccess, renderPopupError, formData);
+  const rooms = Number(offerRooms.value);
+  const guests = Number(offerGuests.value);
+
+  if (rooms < guests) {
+    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+  } else {
+    sendData(sendDataSuccess, renderPopupError, formData);
+  }
 };
 
 const setFormListeners = () => {
@@ -119,8 +126,8 @@ const setFormListeners = () => {
   offerType.addEventListener('change', onPriceChange);
   offerPrice.addEventListener('invalid', onPriceInvalid);
   offerPrice.addEventListener('input', onPriceInput);
-  offerRooms.addEventListener('change', onCheckRooms);
-  offerGuests.addEventListener('change', onCheckRooms);
+  offerRooms.addEventListener('change', onRoomsChange);
+  offerGuests.addEventListener('change', onRoomsChange);
   offerTimeIn.addEventListener('change', onTimeChange);
   offerTimeOut.addEventListener('change', onTimeChange);
   offerForm.addEventListener('submit', onFormSubmit);

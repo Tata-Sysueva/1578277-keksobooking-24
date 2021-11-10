@@ -2,6 +2,7 @@ import { renderCard } from './card-popup.js';
 import { activatePage } from './form-state.js';
 import { getData } from './api.js';
 import { showAlert } from './popup.js';
+import { getFilterOffers } from './filter.js';
 
 const inputAddress = document.querySelector('#address');
 
@@ -43,6 +44,8 @@ L.tileLayer(
   },
 ).addTo(map);
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const renderMarkers = (dataArrPoint) => {
   dataArrPoint.forEach((data) => {
     const { lat, lng } = data.location;
@@ -57,12 +60,14 @@ const renderMarkers = (dataArrPoint) => {
       },
     );
 
-    marker.bindPopup(renderCard(data));
-
-    const markerOffers = L.layerGroup([marker]);
-
-    markerOffers.addTo(map);
+    marker
+      .addTo(markerGroup)
+      .bindPopup(renderCard(data));
   });
+};
+
+const clearMarkers = () => {
+  markerGroup.clearLayers();
 };
 
 inputAddress.value = `${LAT}, ${LNG}`;
@@ -82,6 +87,7 @@ const createMainMarker = () => (
 
 const onDataLoad = (data) => {
   renderMarkers(data.slice(0, OFFER_COUNT));
+  getFilterOffers(data);
 };
 
 map.on('load', () => {
@@ -105,4 +111,4 @@ const initMap = () => {
   });
 };
 
-export { initMap };
+export { initMap, clearMarkers, renderMarkers };
