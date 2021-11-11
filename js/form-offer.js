@@ -13,6 +13,8 @@ const offerTimeIn = document.querySelector('#timein');
 const offerTimeOut = document.querySelector('#timeout');
 const offerForm = document.querySelector('.ad-form');
 const offerReset = document.querySelector('.ad-form__reset');
+const previewAvatar = document.querySelector('.ad-form-header__preview img');
+const previewPhotoContainer = document.querySelector('.ad-form__photo');
 
 const typePlace = {
   bungalow: 0,
@@ -93,13 +95,23 @@ const onTimeChange = (evt) => {
   offerTimeOut.value = offerTimeIn.value;
 };
 
+const resetPhotos = () => {
+  previewAvatar.src = '../img/muffin-grey.svg';
+
+  if (previewPhotoContainer.firstChild) {
+    previewPhotoContainer.removeChild(previewPhotoContainer.firstChild);
+  }
+};
+
 const onFormReset = (evt) => {
   evt.preventDefault();
+  resetPhotos();
   offerForm.reset();
 };
 
 const sendDataSuccess = () => {
   renderPopupSuccess();
+  resetPhotos();
   offerForm.reset();
 };
 
