@@ -95,13 +95,15 @@ map.on('load', () => {
   getData(onDataLoad, showAlert);
 });
 
+const mainMarker = createMainMarker();
+
+console.log(mainMarker);
+
 const initMap = () => {
   map.setView({
     lat: LAT,
     lng: LNG,
   }, ZOOM);
-
-  const mainMarker = createMainMarker();
 
   mainMarker.addTo(map);
 
@@ -111,4 +113,11 @@ const initMap = () => {
   });
 };
 
-export { initMap, clearMarkers, renderMarkers };
+const resetMap = () => {
+  getData(onDataLoad, showAlert);
+  const latlng = L.latLng(LAT, LNG);
+  mainMarker.setLatLng(latlng);
+  inputAddress.value = `${LAT}, ${LNG}`;
+};
+
+export { initMap, clearMarkers, renderMarkers, resetMap };

@@ -1,5 +1,6 @@
 import { renderPopupSuccess, renderPopupError } from './popup.js';
 import { sendData } from './api.js';
+import { resetMap } from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -15,6 +16,7 @@ const offerForm = document.querySelector('.ad-form');
 const offerReset = document.querySelector('.ad-form__reset');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
 const previewPhotoContainer = document.querySelector('.ad-form__photo');
+const formFilter = document.querySelector('.map__filters');
 
 const typePlace = {
   bungalow: 0,
@@ -103,16 +105,21 @@ const resetPhotos = () => {
   }
 };
 
-const onFormReset = (evt) => {
-  evt.preventDefault();
+const resetForms = () => {
   resetPhotos();
   offerForm.reset();
+  formFilter.reset();
+};
+
+const onFormReset = (evt) => {
+  evt.preventDefault();
+  resetForms();
+  resetMap();
 };
 
 const sendDataSuccess = () => {
   renderPopupSuccess();
-  resetPhotos();
-  offerForm.reset();
+  resetForms();
 };
 
 const onFormSubmit = (evt) => {
@@ -127,6 +134,7 @@ const onFormSubmit = (evt) => {
     offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
   } else {
     sendData(sendDataSuccess, renderPopupError, formData);
+    resetMap();
   }
 };
 

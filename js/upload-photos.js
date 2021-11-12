@@ -5,7 +5,7 @@ const previewAvatar = document.querySelector('.ad-form-header__preview img');
 const offerPhoto = document.querySelector('#images');
 const previewPhotoContainer = document.querySelector('.ad-form__photo');
 
-const addAvatar = () => {
+const onAvatarChange = () => {
   const file = offerAvatar.files[0];
   const fileName = file.name.toLowerCase();
 
@@ -16,10 +16,10 @@ const addAvatar = () => {
   }
 };
 
-const addOfferPhoto = () => {
+const onOfferPhotoChange = () => {
   const previewPhoto = document.createElement('img');
-  previewPhoto.style.width = '120px';
-  previewPhoto.style.height = '90px';
+  previewPhoto.style.width = '70px';
+  previewPhoto.style.height = '70px';
   previewPhotoContainer.appendChild(previewPhoto);
 
   const file = offerPhoto.files[0];
@@ -33,8 +33,8 @@ const addOfferPhoto = () => {
 };
 
 const uploadPhotos = () => {
-  offerAvatar.addEventListener('change', addAvatar);
-  offerPhoto.addEventListener('change', addOfferPhoto);
+  offerAvatar.addEventListener('change', onAvatarChange);
+  offerPhoto.addEventListener('change', onOfferPhotoChange);
 };
 
 export { uploadPhotos };
