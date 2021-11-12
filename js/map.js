@@ -97,8 +97,6 @@ map.on('load', () => {
 
 const mainMarker = createMainMarker();
 
-console.log(mainMarker);
-
 const initMap = () => {
   map.setView({
     lat: LAT,
