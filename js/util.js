@@ -1,4 +1,4 @@
-const DEFOULT_VALUE = 500;
+const DEFAULT_VALUE = 500;
 
 const getInteger = (min, max) => {
   if (min > max || min < 0) {
@@ -31,7 +31,7 @@ const shuffle = (array) => {
 
 const createRandomArr = (array) => shuffle(array).slice(0, getInteger(0, array.length - 1));
 
-const debounce = (callback, timeoutDelay = DEFOULT_VALUE) => {
+const debounce = (callback, timeoutDelay = DEFAULT_VALUE) => {
   let timeoutId;
 
   return (...rest) => {

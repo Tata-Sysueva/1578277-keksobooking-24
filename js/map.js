@@ -4,14 +4,13 @@ import { getData } from './api.js';
 import { showAlert } from './popup.js';
 import { getFilterOffers } from './filter.js';
 
-const inputAddress = document.querySelector('#address');
-
 const LAT = 35.6898;
 const LNG = 139.798;
-
 const FLOAT_POINT = 5;
 const OFFER_COUNT = 10;
 const ZOOM = 12;
+
+const inputAddress = document.querySelector('#address');
 
 const map = L.map('map-canvas');
 const layer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -112,6 +111,7 @@ const initMap = () => {
 };
 
 const resetMap = () => {
+  clearMarkers();
   getData(onDataLoad, showAlert);
   const latlng = L.latLng(LAT, LNG);
   mainMarker.setLatLng(latlng);

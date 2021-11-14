@@ -1,6 +1,6 @@
 const API_URL = 'https://24.javascript.pages.academy/keksobooking';
 
-const errorMesseges = {
+const errorMessages = {
   failedGetData: 'Упс! Что-то пошло не так',
   failedFormSubmit: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
@@ -12,33 +12,33 @@ const getData = (onSuccess, onFail) => {
         return response.json();
       }
 
-      onFail(errorMesseges.failedGetData);
+      onFail(errorMessages.failedGetData);
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch (() => {
-      onFail(errorMesseges.failedGetData);
+      onFail(errorMessages.failedGetData);
     });
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(
+  fetch (
     API_URL,
     {
       method: 'POST',
       body,
     },
   )
-    .then((response) => {
+    .then ((response) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail(errorMesseges.failedFormSubmit);
+        onFail(errorMessages.failedFormSubmit);
       }
     })
     .catch (() => {
-      onFail(errorMesseges.failedFormSubmit);
+      onFail(errorMessages.failedFormSubmit);
     });
 };
 

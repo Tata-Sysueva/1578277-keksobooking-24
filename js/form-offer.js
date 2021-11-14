@@ -2,6 +2,8 @@ import { renderPopupSuccess, renderPopupError } from './popup.js';
 import { sendData } from './api.js';
 import { resetMap } from './map.js';
 
+const VALUE_ROOMS = 100;
+const VALUE_GUESTS = 0;
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -17,6 +19,8 @@ const offerReset = document.querySelector('.ad-form__reset');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
 const previewPhotoContainer = document.querySelector('.ad-form__photo');
 const formFilter = document.querySelector('.map__filters');
+
+const avatarUrl = '../img/muffin-grey.svg';
 
 const typePlace = {
   bungalow: 0,
@@ -67,9 +71,9 @@ const onRoomsChange = () => {
 
   if (rooms < guests) {
     offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
-  } else if (rooms === 100 && guests !== 0) {
+  } else if (rooms === VALUE_ROOMS && guests !== VALUE_GUESTS) {
     offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
-  } else if (guests === 0 && rooms !== 100) {
+  } else if (guests === VALUE_GUESTS && rooms !== VALUE_ROOMS) {
     offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
   } else {
     offerGuests.setCustomValidity('');
@@ -98,7 +102,7 @@ const onTimeChange = (evt) => {
 };
 
 const resetPhotos = () => {
-  previewAvatar.src = '../img/muffin-grey.svg';
+  previewAvatar.src = avatarUrl;
 
   if (previewPhotoContainer.firstChild) {
     previewPhotoContainer.removeChild(previewPhotoContainer.firstChild);
@@ -108,6 +112,7 @@ const resetPhotos = () => {
 const resetForms = () => {
   resetPhotos();
   offerForm.reset();
+  syncPrice();
   formFilter.reset();
 };
 
@@ -120,6 +125,7 @@ const onFormReset = (evt) => {
 const sendDataSuccess = () => {
   renderPopupSuccess();
   resetForms();
+  resetMap();
 };
 
 const onFormSubmit = (evt) => {
@@ -134,7 +140,6 @@ const onFormSubmit = (evt) => {
     offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
   } else {
     sendData(sendDataSuccess, renderPopupError, formData);
-    resetMap();
   }
 };
 

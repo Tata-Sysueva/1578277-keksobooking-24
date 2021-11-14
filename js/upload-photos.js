@@ -3,7 +3,7 @@ const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const offerAvatar = document.querySelector('#avatar');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
 const offerPhoto = document.querySelector('#images');
-const previewPhotoContainer = document.querySelector('.ad-form__photo');
+const previewOfferPhoto = document.querySelector('.ad-form__photo');
 
 const onAvatarChange = () => {
   const file = offerAvatar.files[0];
@@ -20,7 +20,7 @@ const onOfferPhotoChange = () => {
   const previewPhoto = document.createElement('img');
   previewPhoto.style.width = '70px';
   previewPhoto.style.height = '70px';
-  previewPhotoContainer.appendChild(previewPhoto);
+  previewPhoto.appendChild(previewOfferPhoto);
 
   const file = offerPhoto.files[0];
   const fileName = file.name.toLowerCase();
