@@ -1,11 +1,11 @@
 import { renderCard } from './card-popup.js';
-import { activatePage } from './form-state.js';
+import { activateAddForm, activateFilters } from './form-state.js';
 import { getData } from './api.js';
 import { showAlert } from './popup.js';
-import { getFilterOffers } from './filter.js';
+import { setFilterListener } from './filter.js';
 
-const LAT = 35.6898;
-const LNG = 139.798;
+const LAT = 35.68641;
+const LNG = 139.75373;
 const FLOAT_POINT = 5;
 const OFFER_COUNT = 10;
 const ZOOM = 12;
@@ -85,12 +85,13 @@ const createMainMarker = () => (
 );
 
 const onDataLoad = (data) => {
+  activateFilters();
   renderMarkers(data.slice(0, OFFER_COUNT));
-  getFilterOffers(data);
+  setFilterListener(data);
 };
 
 map.on('load', () => {
-  activatePage();
+  activateAddForm();
   getData(onDataLoad, showAlert);
 });
 
@@ -112,9 +113,11 @@ const initMap = () => {
 
 const resetMap = () => {
   clearMarkers();
-  getData(onDataLoad, showAlert);
-  const latlng = L.latLng(LAT, LNG);
-  mainMarker.setLatLng(latlng);
+  map.setView({
+    lat: LAT,
+    lng: LNG,
+  }, ZOOM);
+  mainMarker.setLatLng([LAT, LNG]);
   inputAddress.value = `${LAT}, ${LNG}`;
 };
 

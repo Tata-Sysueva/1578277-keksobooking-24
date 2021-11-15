@@ -1,6 +1,7 @@
 import { renderPopupSuccess, renderPopupError } from './popup.js';
 import { sendData } from './api.js';
 import { resetMap } from './map.js';
+import { errorMessages } from './util.js';
 
 const VALUE_ROOMS = 100;
 const VALUE_GUESTS = 0;
@@ -32,7 +33,7 @@ const typePlace = {
 
 const onTitleInvalid = () => {
   if (offerTitle.validity.valueMissing) {
-    offerTitle.setCustomValidity('Ой, мы что-то забыли!');
+    offerTitle.setCustomValidity(errorMessages.missingValue);
   }
 };
 
@@ -70,11 +71,11 @@ const onRoomsChange = () => {
   const guests = Number(offerGuests.value);
 
   if (rooms < guests) {
-    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+    offerGuests.setCustomValidity(errorMessages.wrongValue);
   } else if (rooms === VALUE_ROOMS && guests !== VALUE_GUESTS) {
-    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+    offerGuests.setCustomValidity(errorMessages.wrongValue);
   } else if (guests === VALUE_GUESTS && rooms !== VALUE_ROOMS) {
-    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
+    offerGuests.setCustomValidity(errorMessages.wrongValue);
   } else {
     offerGuests.setCustomValidity('');
   }
@@ -82,11 +83,13 @@ const onRoomsChange = () => {
   offerGuests.reportValidity();
 };
 
+const checkCapacity = () => onRoomsChange();
+
 const onPriceInvalid = () => {
   if (offerPrice.validity.rangeOverflow) {
-    offerPrice.setCustomValidity('Дороговато! Максимальная цена 1 000 000');
+    offerPrice.setCustomValidity(errorMessages.valueExceeded);
   } else if (offerPrice.validity.valueMissing) {
-    offerPrice.setCustomValidity('Ой, мы что-то забыли!');
+    offerPrice.setCustomValidity(errorMessages.missingValue);
   } else {
     offerPrice.setCustomValidity('');
   }
@@ -130,15 +133,10 @@ const sendDataSuccess = () => {
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
-
   const formData = new FormData(evt.target);
+  checkCapacity();
 
-  const rooms = Number(offerRooms.value);
-  const guests = Number(offerGuests.value);
-
-  if (rooms < guests) {
-    offerGuests.setCustomValidity('Выберите другой вариант, пожалуйста!');
-  } else {
+  if (offerForm.checkValidity()) {
     sendData(sendDataSuccess, renderPopupError, formData);
   }
 };

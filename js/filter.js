@@ -1,12 +1,6 @@
 import { clearMarkers, renderMarkers } from './map.js';
 import { debounce } from './util.js';
 
-const formFilter = document.querySelector('.map__filters');
-const formFilterType = formFilter.querySelector('#housing-type');
-const formFilterPrice = formFilter.querySelector('#housing-price');
-const formFilterRooms = formFilter.querySelector('#housing-rooms');
-const formFilterGuests = formFilter.querySelector('#housing-guests');
-
 const OFFER_COUNT = 10;
 const OFFER_DEFAULT = 'any';
 
@@ -17,6 +11,12 @@ const OfferPrice = {
   min: 10000,
   max: 50000,
 };
+
+const formFilter = document.querySelector('.map__filters');
+const formFilterType = formFilter.querySelector('#housing-type');
+const formFilterPrice = formFilter.querySelector('#housing-price');
+const formFilterRooms = formFilter.querySelector('#housing-rooms');
+const formFilterGuests = formFilter.querySelector('#housing-guests');
 
 const isTypeRight = ({ offer }) => offer.type === formFilterType.value || formFilterType.value === OFFER_DEFAULT;
 
@@ -76,10 +76,14 @@ const onFilterMapChange = (data) => {
   renderMarkers(filterOffers(data));
 };
 
-const getFilterOffers = (dataOffers) => {
+const setFilterListener = (dataOffers) => {
   formFilter.addEventListener('change', debounce(() => {
+    onFilterMapChange(dataOffers);
+  }));
+
+  formFilter.addEventListener('reset', debounce(() => {
     onFilterMapChange(dataOffers);
   }));
 };
 
-export { getFilterOffers };
+export { setFilterListener };

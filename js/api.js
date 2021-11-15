@@ -1,9 +1,6 @@
-const API_URL = 'https://24.javascript.pages.academy/keksobooking';
+import { errorMessages } from './util.js';
 
-const errorMessages = {
-  failedGetData: 'Упс! Что-то пошло не так',
-  failedFormSubmit: 'Не удалось отправить форму. Попробуйте ещё раз',
-};
+const API_URL = 'https://24.javascript.pages.academy/keksobooking';
 
 const getData = (onSuccess, onFail) => {
   fetch(`${API_URL}/data`)

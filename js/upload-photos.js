@@ -20,7 +20,7 @@ const onOfferPhotoChange = () => {
   const previewPhoto = document.createElement('img');
   previewPhoto.style.width = '70px';
   previewPhoto.style.height = '70px';
-  previewPhoto.appendChild(previewOfferPhoto);
+  previewOfferPhoto.appendChild(previewPhoto);
 
   const file = offerPhoto.files[0];
   const fileName = file.name.toLowerCase();
